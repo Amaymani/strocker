@@ -1,20 +1,14 @@
 import "@/styles/globals.css";
 import { ThemeProvider } from "next-themes";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton
-} from '@clerk/nextjs'
+import { SessionProvider } from "next-auth/react";
 
 
-export default function App({ Component, pageProps }) {
+export default function App({ Component, pageProps:{ session, ...pageProps } }) {
   return (
     <ThemeProvider enableSystem={true} attribute="class">
-      <ClerkProvider>
+      <SessionProvider session={{session}}>
         <Component {...pageProps} />
-      </ClerkProvider>
+      </SessionProvider>
     </ThemeProvider>
   );
 }

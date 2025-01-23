@@ -13,13 +13,15 @@ import { AiOutlineStock } from "react-icons/ai";
 import { RiStockFill } from "react-icons/ri";
 import Theme from "@/components/theme-changer";
 import { useState, useEffect } from "react";
-import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
-import { useSession } from "@clerk/nextjs";
+import { useSession } from "next-auth/react";
+
+
 
 export default function BackgroundBeamsDemo() {
   const [mounted, setMounted] = useState(false);
-  const { session, isLoaded, isSignedIn } = useSession();
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
   const router=useRouter();
 
   useEffect(() => {
@@ -30,18 +32,17 @@ export default function BackgroundBeamsDemo() {
   
 
   if (!mounted) return null;
-  if (!isLoaded) {
+
+  if (loading) {
     return <div>Loading...</div>;
   }
-
-  if (!isSignedIn) {
-    router.push('/login');
-    return <div>Please sign in.</div>;
+  
+  if (!session || !session.user) {
+    router.push("/login");
   }
+  
 
-  const userId = session.user.id;
-  const userEmail = session.user?.emailAddresses[0]?.emailAddress;
-  const sessionId = session.id;
+
   const links = [
     {
       title: "Home",
@@ -56,36 +57,36 @@ export default function BackgroundBeamsDemo() {
       icon: (
         <AiOutlineStock className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "#",
+      href: "/top-stocks",
     },
     {
       title: "Buy/Sell",
       icon: (
         <IconNewSection className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "#",
+      href: "/buy-sell",
     },
     {
       title: "Your Portfolio",
       icon: (
         <RiStockFill className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "#",
+      href: "/portfolio",
     },
 
     {
-      title: "X",
+      title: "Logout",
       icon: (
         <IconBrandX className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "#",
+      href: "/logout",
     },
     {
       title: "GitHub",
       icon: (
         <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "#",
+      href: "/github",
     }
   ];
   return (

@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { use } from 'react'
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { CanvasRevealEffect } from "@/components/ui/canvas-reveal-effect";
 import Theme from "@/components/theme-changer";
-import { useCustomSignIn } from "@/utils/auth";
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { signIn, useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 const register = () => {
     const [formData, setFormData] = useState({
@@ -16,11 +17,21 @@ const register = () => {
     const router = useRouter();
     const [mounted, setMounted] = useState(false);
     const [hovered, setHovered] = useState(false);
-    const { handleSignIn } = useCustomSignIn();
+    const { data: sessionData, status } = useSession();
+    const [InvalidCredentials, setInvalidCredentials] = useState(false);
+    const [error, setError] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
 
     useEffect(() => {
         setMounted(true);
-    }, []);
+        if (status === 'authenticated') router.push('/');
+    }, [status]);
+    useEffect(() => {
+        if (error) {
+            setErrorMsg(error);
+        }
+    }, [errorMsg]);
+
 
     if (!mounted) return null;
 
@@ -33,17 +44,27 @@ const register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError(null);
         try {
             const res = await axios.post('/api/login', formData);
             if (res.status === 200) {
+                setInvalidCredentials(false);
+                await signIn('credentials', {
+                    email: formData.email,
+                    password: formData.password,
+                    redirect: false
+                });
                 router.push('/');
+            } else if (res.status === 401) {
+                setErrorMsg("Invalid credentials");
+                setInvalidCredentials(true);
+                setErrorMsg("Invalid credentials");
             }
-            console.log(res.data);
-            const result = await handleSignIn(formData.email, formData.password);
-            console.log(result);
         }
         catch (error) {
             console.error("Registration error:", error.response?.data?.error || error.message)
+            setError(error.response?.data?.message || "An error occurred");
+        
         }
     };
 
@@ -100,12 +121,15 @@ const register = () => {
                                 />
                             </div>
                             {/* Submit Button */}
+                            <div className='text-red-700 text-sm'>{errorMsg}</div>
                             <button
                                 type="submit"
                                 className="w-full py-2 px-4 bg-zinc-700  dark:hover:text-black text-white font-medium rounded-lg hover:bg-zinc-900 hover:text-white dark:bg-zinc-700 dark:hover:bg-zinc-400 duration-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
                             >
                                 Log In
                             </button>
+
+                            <Link href={"/register"} className='flex justify-center text-sm text-blue-700 border-blue-700 border rounded-full hover:text-blue-500 duration-500'>Sign-up?</Link>
 
                         </form>
                     </div>

@@ -5,7 +5,8 @@ import { CanvasRevealEffect } from "@/components/ui/canvas-reveal-effect";
 import Theme from "@/components/theme-changer";
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import {useCustomSignUp} from '@/utils/auth';
+import Link from 'next/link';
+
 
 const register = () => {
   const [mounted, setMounted] = useState(false);
@@ -15,7 +16,7 @@ const register = () => {
     password: '',
   });
 
-  const { handleSignUp } = useCustomSignUp();
+
 
   const router=useRouter();
 
@@ -37,10 +38,8 @@ const register = () => {
     try{
       const res =await axios.post('/api/register', formData);
       if(res.status===201){
-        const result = await handleSignUp(formData.email, formData.password);
-          router.push('/login');
-
-      }
+        router.push('/login');
+    }
   }
   catch(error){
       console.error("Registration error:", error.response?.data?.error || error.message)
@@ -106,6 +105,7 @@ const register = () => {
               >
                 Sign Up
               </button>
+              <Link href={"/login"} className='flex justify-center text-sm text-blue-700 border-blue-700 border rounded-full hover:text-blue-500 duration-500'>Log-in?</Link>
             </form>
           </div>
         </div>
