@@ -15,9 +15,7 @@ const register = () => {
     email: '',
     password: '',
   });
-
-
-
+  
   const router=useRouter();
 
   useEffect(() => {
