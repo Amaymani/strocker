@@ -91,12 +91,7 @@ amaymani-strocker/
         └── models/          # Mongoose models
             ├── stock.js
             └── user.js
-```markdown
-# 📈 Amaymani Strocker - A Next.js Stock Tracking Application 📉
-
-Welcome to **Amaymani Strocker**! This project is a sleek, feature-packed stock management application built using **Next.js**, **TailwindCSS**, and other modern tools. The app enables users to monitor stocks, manage portfolios, and simulate buy/sell transactions in real-time.
-
----
+```
 
 ## 📸 UI Highlights
 
@@ -167,7 +162,7 @@ This project is licensed under the MIT License. Feel free to fork, modify, and s
 
 ### 🌟 Contributors
 
-- **[Your Name](https://github.com/yourusername)** - Creator & Maintainer
+- **Amay Mani Tripathi(https://github.com/Amaymani)** - Creator & Maintainer
 
 ---
 
