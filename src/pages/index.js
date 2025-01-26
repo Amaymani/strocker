@@ -19,16 +19,15 @@ export default function BackgroundBeamsDemo() {
   }, []);
 
 
-  if (!mounted) return null;
+  useEffect(() => {
+    if (!loading && (!session || !session.user)) {
+      router.push("/login");
+    }
+  }, [loading, session, router]); // Dependencies to ensure it only runs when loading or session changes
 
-  if (loading) {
+  if (!mounted || loading) {
     return <div>Loading...</div>;
   }
-  
-  if (!session || !session.user) {
-    router.push("/login");
-  }
-
   const links = navLinks;
   
   return (
