@@ -23,10 +23,6 @@ const register = () => {
     const [errorMsg, setErrorMsg] = useState(null);
 
     useEffect(() => {
-        setMounted(true);
-        if (status === 'authenticated') router.push('/');
-    }, [status]);
-    useEffect(() => {
         if (error) {
             setErrorMsg(error);
         }
