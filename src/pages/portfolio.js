@@ -8,10 +8,12 @@ import navLinks from "@/utils/navLinks"
 import Logo from "@/components/logo"
 import axios from "axios";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+import CountUp from 'react-countup';
 
 
 import { FaCaretUp } from "react-icons/fa";
 import { FaCaretDown } from "react-icons/fa";
+import { delay } from 'framer-motion';
 
 
 const portfolio = ({ initialProfile }) => {
@@ -80,7 +82,7 @@ const portfolio = ({ initialProfile }) => {
 
             <div className='heading flex justify-evenly text-4xl font-bold mt-4 ml-5 mb-8'>Your Portfolio</div>
             <div className='flex flex-col justify-center items-center bg-white dark:bg-zinc-900 drop-shadow-2xl p-6 mx-5 rounded-3xl'>
-                <div className='text-7xl font-bold'>${getTotalAssetValue()}</div>
+                <div className='text-7xl font-bold'>$<CountUp end={getTotalAssetValue()} delay={5}/></div>
                 <div className='mt-4'>Total Asset</div>
             </div>
 
