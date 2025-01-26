@@ -1,12 +1,20 @@
 import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import { useSession } from 'next-auth/react';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+
 
 
 const SellModal = ({symbol}) => {
 
     const [quantity, setQuantity] = useState(0);
     const [price, setPrice] = useState(0);
+    const { data: session , status} = useSession();
+    const loading = status === 'loading';
+    const router = useRouter();
+    
 
     useEffect(() => {
             async function fetchStockData() {
@@ -20,6 +28,17 @@ const SellModal = ({symbol}) => {
 
         const handleSubmit = async (e) => {
             e.preventDefault();
+            const response = await axios.post('/api/sell-stock', {
+                symbol:symbol,
+                quantity:quantity,
+                email:session.user.email
+            });
+            
+            if(response.status === 200){
+                alert('Stock Sold Successfully');
+                router.push('/portfolio');
+                
+            }
         }
     return (
         <form onSubmit={handleSubmit} method="POST" className="flex flex-col space-y-4">

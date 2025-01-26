@@ -9,6 +9,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import Image from 'next/image';
 import  StockModal  from '@/components/StockModel';
+import { useSession } from 'next-auth/react';
 
 
 const buySell = ({ initialStocks }) => {
@@ -18,12 +19,24 @@ const buySell = ({ initialStocks }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedStock, setSelectedStock] = useState(null);
     const [mounted, setMounted] = useState(false);
+    const { data: session , status} = useSession();
+    const loading = status === 'loading';
+
     useEffect(() => {
         setMounted(true);
       }, []);
     
     
       if (!mounted) return null;
+
+    if (loading) return <div>loading...</div>;
+
+    if (!session|| !session.user) {
+        router.push("/login");
+        return null;
+    }
+
+    
 
     const handleStockClick = (symbol) => {
         const stock = stocksData.stockData.find(stock => stock.symbol === symbol);
@@ -40,7 +53,6 @@ const buySell = ({ initialStocks }) => {
 
 return (
     <section className='bg-gray-200 h-[100vh] dark:bg-zinc-950'>
-
         <Logo />
         <div className='heading flex justify-evenly text-4xl font-bold mt-4 ml-5 mb-8'>Add to your Portfolio</div>
         <div className='ml-5 grid lg:grid-cols-3 xl:grid-cols-4 gap-4 grid-cols-2'>
@@ -62,7 +74,6 @@ return (
                                     {((stock.price.c - stock.price.o) / stock.price.o).toFixed(2)}%
                                 </div>)}</div>
                             </div>
-
                         </CardSpotlight>
                     </div>
                 ))

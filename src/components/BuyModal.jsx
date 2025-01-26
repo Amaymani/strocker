@@ -1,9 +1,17 @@
-import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import axios from 'axios';
+
+
 const BuyModal = ({symbol}) => {
     const [quantity, setQuantity] = useState(0);
     const [price, setPrice] = useState(0);
+    const { data: session , status} = useSession();
+    const loading = status === 'loading';
+    const router = useRouter();
+
 
     useEffect(() => {
             async function fetchStockData() {
@@ -17,6 +25,16 @@ const BuyModal = ({symbol}) => {
 
         const handleSubmit = async (e) => {
             e.preventDefault();
+            const response = await axios.post('/api/buy-stock', {
+                symbol:symbol,
+                quantity:quantity,
+                email:session.user.email
+            });
+            if(response.status === 200){
+                alert('Stock Bought Successfully');
+                router.push('/portfolio');
+                
+            }
         }
     return (
         <form onSubmit={handleSubmit} method="POST" className="flex flex-col space-y-4">

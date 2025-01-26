@@ -1,5 +1,5 @@
 import React from 'react'
-import { FloatingDock } from "../components/ui/floating-doc";
+import { FloatingDock } from "@/components/ui/floating-doc";
 import Image from 'next/image';
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
@@ -21,7 +21,7 @@ const topStocks = ({ initialStocks }) => {
             <div className='ml-5 grid lg:grid-cols-4 gap-4 grid-cols-2'>
                 {
                     stocksData.stockData.map((stock) => (
-                        <Link href={stock.symbol} key={stock.symbol}>
+                        <Link href={`/stock/${stock.symbol}`} key={stock.symbol}>
                             <CardSpotlight className="flex justify-start items-center h-52 w-96 rounded-xl">
                                 <div className='py-5 z-50'>
                                     <Image src={stock.img} height={100} width={100} alt='stocks_logo' />

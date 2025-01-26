@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Chart, registerables } from "chart.js";
-import { FloatingDock } from "../components/ui/floating-doc";
+import { FloatingDock } from "@/components/ui/floating-doc";
 import navLinks from "@/utils/navLinks";
 import { useRouter } from "next/router";
 import Logo from "@/components/logo";
@@ -114,7 +114,7 @@ const stockPage = () => {
             <div className="p-4 ">
                 {stockData ? (
 
-                    <div className="bg-zinc-900 py-4 pl-4 rounded-2xl hover:rounded-3xl hover:bg-zinc-800 hover:drop-shadow-2xl duration-500">
+                    <div className="dark:bg-zinc-900 py-4 pl-4 rounded-2xl hover:rounded-3xl dark:hover:bg-zinc-800 hover:drop-shadow-2xl duration-500">
                         <TextGenerateEffect words={words} />
                         <div className="flex mt-4">
                             <div className="flex flex-col w-[50%] justify-start ">

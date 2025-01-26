@@ -21,7 +21,13 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    
+    stocks: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Stock",  // Reference to Stock model
+      },
+    ],
+
   },
   {
     timestamps: true,
