@@ -23,6 +23,9 @@ const register = () => {
     const [errorMsg, setErrorMsg] = useState(null);
 
     useEffect(() => {
+        setMounted(true);
+    }, []);
+    useEffect(() => {
         if (error) {
             setErrorMsg(error);
         }
