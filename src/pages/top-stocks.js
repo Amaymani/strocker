@@ -19,7 +19,7 @@ const topStocks = ({ initialStocks }) => {
             <Logo />
             <div className='heading flex justify-center text-4xl font-bold mt-4 ml-5 mb-8'>Top stocks</div>
             <div className='ml-5 grid lg:grid-cols-4 gap-4 grid-cols-2'>
-                {
+                { stocksData?.stockData?.length > 0 ? (
                     stocksData.stockData.map((stock) => (
                         <Link href={`/stock/${stock.symbol}`} key={stock.symbol}>
                             <CardSpotlight className="flex justify-start items-center h-52 w-96 rounded-xl">
@@ -40,7 +40,9 @@ const topStocks = ({ initialStocks }) => {
 
                             </CardSpotlight>
                         </Link>
-                    ))
+                    ))) : (
+                        <p>No stocks available</p>
+                      )
 
                 }
             </div>
@@ -73,7 +75,7 @@ export async function getServerSideProps(context) {
         console.error("Error fetching data:", error);
         return {
             props: {
-                initialStocks: {},
+                initialStocks: stockRes.data || {}, // Ensure stockRes.data is a valid object
             },
         };
     }
