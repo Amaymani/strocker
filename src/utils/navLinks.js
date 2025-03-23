@@ -6,6 +6,9 @@ import {
   } from "@tabler/icons-react";
   import { AiOutlineStock } from "react-icons/ai";
   import { RiStockFill } from "react-icons/ri";
+  import { FaLinkedin } from "react-icons/fa";
+  import { IoLogOut } from "react-icons/io5";
+
 
 const navLinks = [
     {
@@ -38,19 +41,20 @@ const navLinks = [
       href: "/portfolio",
     },
 
+    
+    {
+      title: "LinkedIn",
+      icon: (
+        <FaLinkedin className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+      ),
+      href: "https://www.linkedin.com/in/amaymanitripathi/",
+    },
     {
       title: "Logout",
       icon: (
-        <IconBrandX className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+        <IoLogOut className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
       href: "/logout",
-    },
-    {
-      title: "GitHub",
-      icon: (
-        <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />
-      ),
-      href: "https://github.com/Amaymani/",
     }
   ];
 
